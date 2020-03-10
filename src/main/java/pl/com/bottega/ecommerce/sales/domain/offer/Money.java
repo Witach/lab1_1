@@ -23,23 +23,27 @@ public class Money {
     public String getCurrency() {
         return currency;
     }
+     public int compareTo(Money money){
+        return money.getValue().compareTo(this.value);
+     }
+
+     public Money subtract(Money money){
+        value = value.subtract(money.getValue());
+        return  new Money(value, currency);
+     }
 
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(value, currency);
     }
 
     @Override
-    public boolean equals(Object other) {
-        return Objects.equals(value, ((Money) other).value);
+    public boolean equals(Object obj) {
+        Money other = (Money) obj;
+        return Objects.equals(value, other.value)
+                && Objects.equals(currency, other.currency);
     }
 
-    @Override
-    public String toString() {
-        return "Money{" +
-                "value=" + value +
-                ", currency='" + currency + '\'' +
-                '}';
-    }
+
 }
