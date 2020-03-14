@@ -18,8 +18,6 @@ import java.util.Objects;
 
 public class OfferItem {
 
-    // product
-
     private Product product;
 
     private int quantity;
@@ -28,27 +26,22 @@ public class OfferItem {
 
     private Discount discount;
 
-    public OfferItem(String productId, BigDecimal productPrice, String productName, Date productSnapshotDate, String productType,
-                     int quantity) {
-        this(productId, productPrice, productName, productSnapshotDate, productType, quantity, null, null);
+    public OfferItem(Product product, int quantity) {
+        this(product, quantity, null);
     }
 
-    public OfferItem(String productId, BigDecimal productPrice, String productName, Date productSnapshotDate, String productType,
-                     int quantity, BigDecimal discount, String discountCause) {
+    public OfferItem(Product product, int quantity, Discount discount) {
 
-        product = new Product(productId, productPrice, productName, productSnapshotDate, productType);
-
+        this.product = product;
         this.quantity = quantity;
-        this.discount = new Discount(discount, discountCause);
+        this.discount = discount;
 
-        BigDecimal discountValue = new BigDecimal(0);
+        BigDecimal discountValue = BigDecimal.valueOf(0);
         if (discount != null) {
-            discountValue = discountValue.add(discount);
+            discountValue = discountValue.add(discount.getValue());
         }
 
-        BigDecimal val = productPrice.multiply(new BigDecimal(quantity))
-                .subtract(discountValue);
-        this.totalCost = new Money(val, "");
+        this.totalCost = product.getPriceMoney().multiply(BigDecimal.valueOf(quantity)).subtract(discountValue);
     }
 
     public String getProductId() {
@@ -72,7 +65,7 @@ public class OfferItem {
     }
 
     public BigDecimal getTotalCost() {
-        return totalCost.getValue();
+        return totalCost.getAmount();
     }
 
     public String getTotalCostCurrency() {
@@ -156,7 +149,7 @@ public class OfferItem {
 
         BigDecimal max;
         BigDecimal min;
-        if (totalCost.compareTo(other.totalCost) > 0) {
+        if (totalCost.getAmount().compareTo(other.totalCost.amount) > 0) {
             max = getTotalCost();
             min = other.getTotalCost();
         } else {

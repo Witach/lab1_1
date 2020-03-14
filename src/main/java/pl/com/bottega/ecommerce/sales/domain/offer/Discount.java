@@ -9,17 +9,17 @@ public class Discount {
 
     private String cause;
 
-    public Discount(BigDecimal value, String cause) {
-        this.value = new Money(value, "");
+    public Discount(BigDecimal value, String cause, String currency) {
+        this.value = new Money(value, currency);
         this.cause = cause;
     }
 
     public BigDecimal getValue() {
-        return value.getValue();
+        return value.getAmount();
     }
 
     public void setValue(BigDecimal value) {
-        this.value.setValue(value);
+        this.value.setAmount(value);
     }
 
     public String getCause() {
@@ -29,6 +29,8 @@ public class Discount {
     public void setCause(String cause) {
         this.cause = cause;
     }
+
+    public String getCurrency(){return value.currency;}
 
     @Override
     public int hashCode() {
