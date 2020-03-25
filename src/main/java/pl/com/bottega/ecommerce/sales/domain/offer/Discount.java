@@ -18,10 +18,6 @@ public class Discount {
         return value.getAmount();
     }
 
-    public void setValue(BigDecimal value) {
-        this.value.setAmount(value);
-    }
-
     public String getCause() {
         return cause;
     }
@@ -30,7 +26,9 @@ public class Discount {
         this.cause = cause;
     }
 
-    public String getCurrency(){return value.currency;}
+    public String getCurrency() {
+        return value.currency;
+    }
 
     @Override
     public int hashCode() {

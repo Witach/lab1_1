@@ -21,10 +21,6 @@ public class Money {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
     public String getCurrency() {
         return currency;
     }
